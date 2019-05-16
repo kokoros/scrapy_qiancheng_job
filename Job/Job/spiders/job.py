@@ -3,7 +3,6 @@ import scrapy
 #导入items
 from ..items import JobItem
 
-import random
 
 class JobSpider(scrapy.Spider):
     name = 'job'
@@ -16,10 +15,11 @@ class JobSpider(scrapy.Spider):
     #因为不想要先丢个url再爬取,所以这里要重写方法
     #重写Spider类中的start_requests方法
     def start_requests(self):
+       
         key = input('请输入职位名称:')
         self.job_size = 1
         page = 1
-        #先爬10页
+        #先爬50页
         while page < 51:
             url = 'https://search.51job.com/list/000000%252C00,000000,0000,00,9,99,{},2,{}.html?lang=c&stype=1&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&lonlat=0%2C0&radius=-1&ord_field=0&confirmdate=9&fromType=&dibiaoid=0&address=&line=&specialarea=00&from=&welfare='.format(key, str(page))
             #把url地址入队列

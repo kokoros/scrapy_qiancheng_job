@@ -7,6 +7,13 @@
 
 from scrapy import signals
 
+#导入要变动的请求头
+from .useagent import ua_list
+from .proxylist import proxy_list
+
+#导入随机
+import random
+
 
 class JobSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -101,3 +108,23 @@ class JobDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+#新建类 随机User-Agent中间件
+class RandomUAmiddleware(object):
+    # 定义随机User-Agent的函数
+    def process_request(self, request, spider):
+        # 从文件中取
+        ua = random.choice(ua_list)
+        # 给请求头赋值随机User-Agent
+        request.headers['User-Agent'] = ua
+        print('此时请求头为:', ua)
+
+#新建类 随机IP中间件
+class RandomIPmiddleware(object):
+    # 定义随机IP的函数
+    def process_request(self, request, spider):
+        # 从文件中取
+        proxy = random.choice(proxy_list)
+        # 给请求头赋值随机User-Agent
+        request.meta['proxy'] = proxy
+        print('此时代理ip为:', proxy)
